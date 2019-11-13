@@ -10,19 +10,50 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var swipeUp: UILabel!
+    @IBOutlet weak var stackviewUp: UIStackView!
+    @IBOutlet weak var UpLeftButton: UIButton!
+    @IBOutlet weak var UpRightButton: UIButton!
+    @IBOutlet weak var stackviewBottom: UIStackView!
+    @IBOutlet weak var BLeftButton: UIButton!
+    @IBOutlet weak var BRightButton: UIButton!
+    @IBOutlet weak var LeftButton: UIButton!
+    @IBOutlet weak var CenterButton: UIButton!
+    @IBOutlet weak var RightButton: UIButton!
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        for family: String in UIFont.familyNames
-        {
-            print(family)
-            for names: String in UIFont.fontNames(forFamilyName: family)
-            {
-                print("== \(names)")
-            }
-        }
+
     }
 
-
+    
+    /*  - Cacher un bouton du stackview pour faire la forme souhaite
+        - cacher les images des boutons non selectionns */
+    @IBAction func didTapeLeftButton(_ sender: Any) {
+        BRightButton.isHidden = false
+        UpRightButton.isHidden = true
+        CenterButton.imageView?.isHidden = true
+        RightButton.imageView?.isHidden = true
+    }
+    
+    
+    @IBAction func didTapeCenterButton(_ sender: Any) {
+        UpRightButton.isHidden = false
+        BRightButton.isHidden = true
+        LeftButton.imageView?.isHidden = true
+        RightButton.imageView?.isHidden = true
+      
+        
+    }
+    
+    
+    @IBAction func didTapeRightButton(_ sender: Any) {
+         BRightButton.isHidden = false
+         UpRightButton.isHidden = false
+         CenterButton.imageView?.isHidden = true
+         LeftButton.imageView?.isHidden = true
+    }
 }
 
