@@ -24,10 +24,19 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-
+        // ajout de la police à UILabel
+//        swipeUp.font = UIFont(name: "Delm-Medium", size: 30)
+        
     }
 
+    @IBAction func didTapePhotoButton(_ sender: UIButton!){
+    
+        
+    }
+    
+    
+    
+    
     
     /*  - Cacher un bouton du stackview pour faire la forme souhaite
         - cacher les images des boutons non selectionns */
@@ -43,9 +52,7 @@ class ViewController: UIViewController {
         UpRightButton.isHidden = false
         BRightButton.isHidden = true
         LeftButton.imageView?.isHidden = true
-        RightButton.imageView?.isHidden = true
-      
-        
+        RightButton.imageView?.isHidden = true   
     }
     
     
