@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
 
     @IBOutlet weak var swipeUp: UILabel!
     @IBOutlet weak var stackviewUp: UIStackView!
@@ -28,11 +28,36 @@ class ViewController: UIViewController {
 //        swipeUp.font = UIFont(name: "Delm-Medium", size: 30)
         
     }
+    
+    // créé une variable vide dans la classe qui sera prête à accueillir l'adresse mémoire d'un bouton, mais ne met rien dedans pour l'instant
+    var selectionnedButton: UIButton?
 
     @IBAction func didTapePhotoButton(_ sender: UIButton!){
+            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+                let imagePicker = UIImagePickerController()
+                    //met l'adresse mémoire du bouton sur lequel l'utilisateur a appuyé dans la variable selectionnedButton comme ca je peux l'utiliser plus tard
+                   self.selectionnedButton = sender
+                   imagePicker.delegate = self
+                   imagePicker.sourceType = .photoLibrary;
+                   imagePicker.allowsEditing = true
+                   self.present(imagePicker, animated: true, completion: nil)
+                
+            }
+        }
     
-        
+    
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        let selectedImage = info[.editedImage] as? UIImage
+        self.selectionnedButton?.setImage(selectedImage, for: UIControl.State.normal)
+        picker.dismiss(animated: true, completion: nil)
+        selectionnedButton = nil // remet le selectionnedButton a nil, parce qu'on a fini le traitement dessus. Donc on ne devrait plus s'en servir et si on essaye de s'en servir, c'est pas normal
     }
+        
+        
+    
     
     
     
