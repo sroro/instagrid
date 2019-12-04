@@ -27,7 +27,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         // ajout de la police à UILabel
 //        swipeUp.font = UIFont(name: "Delm-Medium", size: 30)
         
+
+        // swipe up
+          let up = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
+          up.direction = .up
+          self.swipeUp.addGestureRecognizer(up)
     }
+    
+    
+    
+    @ objc func swipe() {
+           let image : UIImage?
+           let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+           activityViewController.popoverPresentationController?.sourceView = self.view
+           self.present(activityViewController, animated: true, completion: nil)
+           
+       }
     
     // créé une variable vide dans la classe qui sera prête à accueillir l'adresse mémoire d'un bouton, mais ne met rien dedans pour l'instant
     var selectionnedButton: UIButton?
@@ -58,7 +73,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         
     
-    
+    @ objc func swipe() {
+           let image : UIImage?
+           let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+           activityViewController.popoverPresentationController?.sourceView = self.view
+           self.present(activityViewController, animated: true, completion: nil)
+           
+       }
+       
     
     
     
