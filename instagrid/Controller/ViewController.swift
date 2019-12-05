@@ -28,21 +28,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 //        swipeUp.font = UIFont(name: "Delm-Medium", size: 30)
         
 
-        // swipe up
+    /*    // swipe up
           let up = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
           up.direction = .up
-          self.swipeUp.addGestureRecognizer(up)
+          self.swipeUp.addGestureRecognizer(up) */
     }
     
     
     
-    @ objc func swipe() {
+ /*   @ objc func swipe() {
            let image : UIImage?
            let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
            activityViewController.popoverPresentationController?.sourceView = self.view
            self.present(activityViewController, animated: true, completion: nil)
            
-       }
+       } */
     
     // créé une variable vide dans la classe qui sera prête à accueillir l'adresse mémoire d'un bouton, mais ne met rien dedans pour l'instant
     var selectionnedButton: UIButton?
@@ -70,16 +70,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         picker.dismiss(animated: true, completion: nil)
         selectionnedButton = nil // remet le selectionnedButton a nil, parce qu'on a fini le traitement dessus. Donc on ne devrait plus s'en servir et si on essaye de s'en servir, c'est pas normal
     }
-        
-        
-    
-    @ objc func swipe() {
-           let image : UIImage?
-           let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-           activityViewController.popoverPresentationController?.sourceView = self.view
-           self.present(activityViewController, animated: true, completion: nil)
-           
-       }
        
     
     
