@@ -199,7 +199,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe up to share " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4TO-lv-8EU">
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe up to share " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4TO-lv-8EU">
                                 <rect key="frame" x="115" y="226" width="184" height="26"/>
                                 <fontDescription key="fontDescription" name="Delm-Medium" family="Delm" pointSize="22"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -344,6 +344,7 @@
                         <outlet property="stackviewBottom" destination="M4L-eL-ZuS" id="BQD-nY-cDY"/>
                         <outlet property="stackviewUp" destination="c5k-Bi-PBf" id="CZk-Qj-5Gi"/>
                         <outlet property="swipeUp" destination="4TO-lv-8EU" id="94C-QX-5TA"/>
+                        <outlet property="viewMain" destination="Jku-nc-fbR" id="q4q-EH-77u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

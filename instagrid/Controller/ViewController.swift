@@ -21,28 +21,43 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var CenterButton: UIButton!
     @IBOutlet weak var RightButton: UIButton!
     
-
+    @IBOutlet weak var viewMain: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // ajout de la police à UILabel
 //        swipeUp.font = UIFont(name: "Delm-Medium", size: 30)
         
 
-    /*    // swipe up
+        // swipe up
           let up = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
           up.direction = .up
-          self.swipeUp.addGestureRecognizer(up) */
+          self.swipeUp.addGestureRecognizer(up)
+        
+        // swipe left pour le mode paysage
+          let left = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
+          left.direction = .left
+          self.swipeUp.addGestureRecognizer(left)
+       
+    
     }
+   
     
     
     
- /*   @ objc func swipe() {
-           let image : UIImage?
-           let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-           activityViewController.popoverPresentationController?.sourceView = self.view
-           self.present(activityViewController, animated: true, completion: nil)
-           
-       } */
+    @ objc func swipe(sender: UISwipeGestureRecognizer) {
+        
+       let renderer = UIGraphicsImageRenderer(size: viewMain.bounds.size)
+       let image = renderer.image { ctx in
+           viewMain.drawHierarchy(in: viewMain.bounds, afterScreenUpdates: true)
+       }
+        let items = [image]
+        let ac = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
+        present(ac, animated: true)
+      
+       }
+    
+    
     
     // créé une variable vide dans la classe qui sera prête à accueillir l'adresse mémoire d'un bouton, mais ne met rien dedans pour l'instant
     var selectionnedButton: UIButton?
