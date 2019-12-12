@@ -20,42 +20,61 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var LeftButton: UIButton!
     @IBOutlet weak var CenterButton: UIButton!
     @IBOutlet weak var RightButton: UIButton!
-    
     @IBOutlet weak var viewMain: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // ajout de la police à UILabel
-//        swipeUp.font = UIFont(name: "Delm-Medium", size: 30)
+           
         
-
-        // swipe up
-          let up = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
-          up.direction = .up
-          self.swipeUp.addGestureRecognizer(up)
+         NotificationCenter.default.addObserver(self, selector: #selector(manageSwipe), name: UIDevice.orientationDidChangeNotification, object: nil)
         
-        // swipe left pour le mode paysage
-          let left = UISwipeGestureRecognizer(target: self, action: #selector(swipe))
-          left.direction = .left
-          self.swipeUp.addGestureRecognizer(left)
+        
+       
+    }
+    
+    
+    var isLandscape: Bool {
+        if #available(iOS 13, *){
+            return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation.isLandscape ?? false
+        } else {
+            return UIApplication.shared.statusBarOrientation.isLandscape}
+    }
+    
+    
        
     
-    }
-   
     
-    
-    
-    @ objc func swipe(sender: UISwipeGestureRecognizer) {
+    @ objc func manageSwipe(sender: UISwipeGestureRecognizer) {
+     
         
+        
+        if isLandscape {
+            
+        
+            let up = UISwipeGestureRecognizer(target: self, action: #selector(manageSwipe))
+            up.direction = .up
+            self.swipeUp.addGestureRecognizer(up)
+            
+        } else {
+            let left = UISwipeGestureRecognizer(target: self, action: #selector(manageSwipe))
+            left.direction = .left
+            self.swipeUp.addGestureRecognizer(left)
+            
+        }
+        
+        
+       
+     
+        // transformer UIView en UIImage
        let renderer = UIGraphicsImageRenderer(size: viewMain.bounds.size)
        let image = renderer.image { ctx in
            viewMain.drawHierarchy(in: viewMain.bounds, afterScreenUpdates: true)
        }
+        // share l'image transformer via plusieurs app
         let items = [image]
-        let ac = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
-        present(ac, animated: true)
-      
-       }
+        let share = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
+        present(share, animated: true)
+    }
     
     
     
@@ -65,25 +84,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func didTapePhotoButton(_ sender: UIButton!){
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 let imagePicker = UIImagePickerController()
-                    //met l'adresse mémoire du bouton sur lequel l'utilisateur a appuyé dans la variable selectionnedButton comme ca je peux l'utiliser plus tard
-                   self.selectionnedButton = sender
-                   imagePicker.delegate = self
-                   imagePicker.sourceType = .photoLibrary;
-                   imagePicker.allowsEditing = true
-                   self.present(imagePicker, animated: true, completion: nil)
-                
+                //met l'adresse mémoire du bouton sur lequel l'utilisateur a appuyé dans la variable selectionnedButton comme ca je peux l'utiliser plus tard
+                self.selectionnedButton = sender
+                imagePicker.delegate = self
+                imagePicker.sourceType = .photoLibrary;
+                imagePicker.allowsEditing = true
+                self.present(imagePicker, animated: true, completion: nil)
             }
         }
     
     
-    
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-
         let selectedImage = info[.editedImage] as? UIImage
         self.selectionnedButton?.setImage(selectedImage, for: UIControl.State.normal)
         picker.dismiss(animated: true, completion: nil)
-        selectionnedButton = nil // remet le selectionnedButton a nil, parce qu'on a fini le traitement dessus. Donc on ne devrait plus s'en servir et si on essaye de s'en servir, c'est pas normal
+        selectionnedButton = nil /* remet le selectionnedButton a nil, parce qu'on a fini le traitement dessus. Donc on ne
+        devrait plus s'en servir et si on essaye de s'en servir, c'est pas normal */
     }
        
     
@@ -116,3 +132,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
 }
 
+
+
+/* qu'est ce que Delegate, didFinishPickingMediaWithInfo, UIcontrolState*/
