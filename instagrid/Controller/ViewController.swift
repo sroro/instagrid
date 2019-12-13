@@ -24,12 +24,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewDidLoad() {
         super.viewDidLoad()
-           
+
+       /*dans le viewDidLoad, ajoute la gestion des geste => Si je fait un swipeUp ou un swipeLeft sur mon label, execute la fonction manageSwipe */
         
-         NotificationCenter.default.addObserver(self, selector: #selector(manageSwipe), name: UIDevice.orientationDidChangeNotification, object: nil)
+        let up = UISwipeGestureRecognizer(target: self, action: #selector(manageSwipe))
+        let left = UISwipeGestureRecognizer(target: self, action: #selector(manageSwipe))
+        up.direction = .up
+        left.direction = .left
+        swipeUp.addGestureRecognizer(up)
+        swipeUp.addGestureRecognizer(left)
+        
+            
+        // self.swipeUp.text = " Swipe Left to share "
         
         
-       
     }
     
     
@@ -45,32 +53,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
     @ objc func manageSwipe(sender: UISwipeGestureRecognizer) {
+      
+    
+       /* Pour continuer, je veux que mon sender ait recu une direction .left ET que le téléphone soit en landscape OU que mon sender ait recu une direction .up ET que le téléphone ne soit pas en landscape*/
      
+     guard  sender.direction == .left && isLandscape || sender.direction == .up && !isLandscape else {
+                return
+            }
         
         
-        if isLandscape {
-            
-        
-            let up = UISwipeGestureRecognizer(target: self, action: #selector(manageSwipe))
-            up.direction = .up
-            self.swipeUp.addGestureRecognizer(up)
-            
-        } else {
-            let left = UISwipeGestureRecognizer(target: self, action: #selector(manageSwipe))
-            left.direction = .left
-            self.swipeUp.addGestureRecognizer(left)
-            
-        }
-        
-        
-       
-     
         // transformer UIView en UIImage
        let renderer = UIGraphicsImageRenderer(size: viewMain.bounds.size)
        let image = renderer.image { ctx in
            viewMain.drawHierarchy(in: viewMain.bounds, afterScreenUpdates: true)
        }
-        // share l'image transformer via plusieurs app
+        
+        // share l'image transformer
         let items = [image]
         let share = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
         present(share, animated: true)
