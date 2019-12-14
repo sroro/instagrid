@@ -66,6 +66,6 @@
 		<string>ThirstySoftRegular.otf</string>
 	</array>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string> $(PRODUCT_NAME) photo use</string>
+	<string>use and share photo</string>
 </dict>
 </plist>
