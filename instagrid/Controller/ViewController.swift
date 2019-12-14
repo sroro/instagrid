@@ -34,8 +34,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         swipeUp.addGestureRecognizer(up)
         swipeUp.addGestureRecognizer(left)
         
-            
-        // self.swipeUp.text = " Swipe Left to share "
+        //      notification gere orientation ecran pour modif text UILabel
+        NotificationCenter.default.addObserver(self, selector: #selector(manageOrientation), name: UIDevice.orientationDidChangeNotification, object: nil)
+        
         
         
     }
@@ -50,17 +51,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
        
+    @ objc func manageOrientation() {
+        if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+            swipeUp.text = "Swipe left to share"
+        } else {
+            swipeUp.text = "Swipe up to share"
+        }
+    }
     
     
     @ objc func manageSwipe(sender: UISwipeGestureRecognizer) {
       
-    
        /* Pour continuer, je veux que mon sender ait recu une direction .left ET que le téléphone soit en landscape OU que mon sender ait recu une direction .up ET que le téléphone ne soit pas en landscape*/
      
      guard  sender.direction == .left && isLandscape || sender.direction == .up && !isLandscape else {
                 return
             }
-        
         
         // transformer UIView en UIImage
        let renderer = UIGraphicsImageRenderer(size: viewMain.bounds.size)
@@ -73,7 +79,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let share = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
         present(share, animated: true)
     }
-    
     
     
     // créé une variable vide dans la classe qui sera prête à accueillir l'adresse mémoire d'un bouton, mais ne met rien dedans pour l'instant
@@ -92,6 +97,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     
     
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let selectedImage = info[.editedImage] as? UIImage
         self.selectionnedButton?.setImage(selectedImage, for: UIControl.State.normal)
@@ -100,8 +106,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         devrait plus s'en servir et si on essaye de s'en servir, c'est pas normal */
     }
        
-    
-    
     
     
     /*  - Cacher un bouton du stackview pour faire la forme souhaite
