@@ -38,7 +38,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         NotificationCenter.default.addObserver(self, selector: #selector(manageOrientation), name: UIDevice.orientationDidChangeNotification, object: nil)
         
         
-        
     }
     
     
