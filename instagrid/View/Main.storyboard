@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,7 +25,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow Up" translatesAutoresizingMaskIntoConstraints="NO" id="8yc-72-rHs">
-                                <rect key="frame" x="197" y="196" width="20" height="22"/>
+                                <rect key="frame" x="197" y="197.5" width="20" height="22"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="1X2-8S-F8E"/>
@@ -113,7 +113,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="0V6-1R-tPL" userLabel="Stack View Layout">
                                 <rect key="frame" x="30" y="752" width="354" height="80"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FL6-sH-iQr" userLabel="ButtonLeft">
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FL6-sH-iQr" userLabel="ButtonLeft">
                                         <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="OUE-AS-3tD"/>
@@ -133,10 +133,10 @@
                                             </mask>
                                         </variation>
                                         <connections>
-                                            <action selector="didTapeLeftButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aTx-Ph-Add"/>
+                                            <action selector="didTapLayoutButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nPg-ad-beJ"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="faR-22-YvP" userLabel="ButtonCenter">
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="faR-22-YvP" userLabel="ButtonCenter">
                                         <rect key="frame" x="137" y="0.0" width="80" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="32p-KT-2wj"/>
@@ -154,10 +154,10 @@
                                             </mask>
                                         </variation>
                                         <connections>
-                                            <action selector="didTapeCenterButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Thy-1v-HXm"/>
+                                            <action selector="didTapLayoutButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uGd-7M-bUH"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14w-uf-hWo" userLabel="ButtonRight">
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14w-uf-hWo" userLabel="ButtonRight">
                                         <rect key="frame" x="274" y="0.0" width="80" height="80"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="Bjk-Pg-fEL"/>
@@ -175,7 +175,7 @@
                                             </mask>
                                         </variation>
                                         <connections>
-                                            <action selector="didTapeRightButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qie-Kd-wzV"/>
+                                            <action selector="didTapLayoutButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zlr-q4-jAh"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -201,7 +201,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe up to share " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4TO-lv-8EU">
-                                <rect key="frame" x="115" y="226" width="184" height="26"/>
+                                <rect key="frame" x="137" y="227.5" width="140" height="24.5"/>
                                 <fontDescription key="fontDescription" name="Delm-Medium" family="Delm" pointSize="22"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>

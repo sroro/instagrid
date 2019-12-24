@@ -26,6 +26,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         super.viewDidLoad()
 
        /*dans le viewDidLoad, ajoute la gestion des geste => Si je fait un swipeUp ou un swipeLeft sur mon label, execute la fonction manageSwipe */
+        selectLayout(style: currentStyle)
         
         let up = UISwipeGestureRecognizer(target: self, action: #selector(manageSwipe))
         let left = UISwipeGestureRecognizer(target: self, action: #selector(manageSwipe))
@@ -40,6 +41,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
     }
     
+    var currentStyle: Int = 3
+    
     
     var isLandscape: Bool {
         if #available(iOS 13, *){
@@ -50,8 +53,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     
        
-    @ objc func manageOrientation() {
-        if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+    @objc func manageOrientation() {
+//        if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+        selectLayout(style: currentStyle)
+        if isLandscape {
             swipeUp.text = "Swipe left to share"
         } else {
             swipeUp.text = "Swipe up to share"
@@ -59,7 +64,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
-    @ objc func manageSwipe(sender: UISwipeGestureRecognizer) {
+    @objc func manageSwipe(sender: UISwipeGestureRecognizer) {
       
        /* Pour continuer, je veux que mon sender ait recu une direction .left ET que le téléphone soit en landscape OU que mon sender ait recu une direction .up ET que le téléphone ne soit pas en landscape*/
      
@@ -109,30 +114,40 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     /*  - Cacher un bouton du stackview pour faire la forme souhaite
         - cacher les images des boutons non selectionns */
-    @IBAction func didTapeLeftButton(_ sender: Any) {
-        BRightButton.isHidden = false
-        UpRightButton.isHidden = true
-        CenterButton.imageView?.isHidden = true
-        RightButton.imageView?.isHidden = true
+    @IBAction func didTapLayoutButton(_ sender: UIButton) {
+        selectLayout(style: sender.tag)
+    }
+    
+    func selectLayout(style:Int) {
+        currentStyle = style
+        switch style {
+        case 1:
+              BRightButton.isHidden = false
+              UpRightButton.isHidden = true
+              CenterButton.imageView?.isHidden = true
+              RightButton.imageView?.isHidden = true
+              LeftButton.imageView?.isHidden = false
+        case 2:
+            BRightButton.isHidden = true
+            UpRightButton.isHidden = false
+            CenterButton.imageView?.isHidden = false
+            LeftButton.imageView?.isHidden = true
+            RightButton.imageView?.isHidden = true
+            
+        case 3:
+            BRightButton.isHidden = false
+            UpRightButton.isHidden = false
+            CenterButton.imageView?.isHidden = true
+            LeftButton.imageView?.isHidden = true
+            RightButton.imageView?.isHidden = false
+        default:
+            break
+                
+        }
     }
     
     
-    @IBAction func didTapeCenterButton(_ sender: Any) {
-        UpRightButton.isHidden = false
-        BRightButton.isHidden = true
-        LeftButton.imageView?.isHidden = true
-        RightButton.imageView?.isHidden = true   
-    }
-    
-    
-    @IBAction func didTapeRightButton(_ sender: Any) {
-         BRightButton.isHidden = false
-         UpRightButton.isHidden = false
-         CenterButton.imageView?.isHidden = true
-         LeftButton.imageView?.isHidden = true
-    }
 }
 
 
 
-/* qu'est ce que Delegate, didFinishPickingMediaWithInfo, UIcontrolState*/
