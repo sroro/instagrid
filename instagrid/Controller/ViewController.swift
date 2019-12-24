@@ -8,8 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
-
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
+// MARK: - IBOulet / IBAction
+    
     @IBOutlet weak var swipeUp: UILabel!
     @IBOutlet weak var stackviewUp: UIStackView!
     @IBOutlet weak var UpLeftButton: UIButton!
@@ -22,6 +23,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var RightButton: UIButton!
     @IBOutlet weak var viewMain: UIView!
     
+    @IBAction func didTapePhotoButton(_ sender: UIButton!){
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+        let imagePicker = UIImagePickerController()
+                   //met l'adresse mémoire du bouton sur lequel l'utilisateur a appuyé dans la variable selectionnedButton comme ca je peux l'utiliser plus tard
+        self.selectionnedButton = sender
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary;
+        imagePicker.allowsEditing = true
+        self.present(imagePicker, animated: true, completion: nil)
+            }
+        }
+    
+    /*  - Cacher un bouton du stackview pour faire la forme souhaite
+          - cacher les images des boutons non selectionns */
+      @IBAction func didTapLayoutButton(_ sender: UIButton) {
+          selectLayout(style: sender.tag)
+       }
+    
+//    MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,24 +57,27 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         //      notification gere orientation ecran pour modif text UILabel
         NotificationCenter.default.addObserver(self, selector: #selector(manageOrientation), name: UIDevice.orientationDidChangeNotification, object: nil)
-        
-        
+     
     }
     
+// MARK: - Properties
+    
     var currentStyle: Int = 3
-    
-    
     var isLandscape: Bool {
         if #available(iOS 13, *){
             return UIApplication.shared.windows.first?.windowScene?.interfaceOrientation.isLandscape ?? false
         } else {
             return UIApplication.shared.statusBarOrientation.isLandscape}
     }
+    // créé une variable vide dans la classe qui sera prête à accueillir
+    // l'adresse mémoire d'un bouton, mais ne met rien dedans pour l'instant
     
+    var selectionnedButton: UIButton?
     
+//    MARK: - Méthodes
        
     @objc func manageOrientation() {
-//        if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
+//     if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
         selectLayout(style: currentStyle)
         if isLandscape {
             swipeUp.text = "Swipe left to share"
@@ -62,15 +85,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             swipeUp.text = "Swipe up to share"
         }
     }
-    
-    
+
     @objc func manageSwipe(sender: UISwipeGestureRecognizer) {
       
        /* Pour continuer, je veux que mon sender ait recu une direction .left ET que le téléphone soit en landscape OU que mon sender ait recu une direction .up ET que le téléphone ne soit pas en landscape*/
      
-     guard  sender.direction == .left && isLandscape || sender.direction == .up && !isLandscape else {
+        guard  sender.direction == .left && isLandscape || sender.direction == .up && !isLandscape else {
                 return
-            }
+             }
         
         // transformer UIView en UIImage
        let renderer = UIGraphicsImageRenderer(size: viewMain.bounds.size)
@@ -84,38 +106,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         present(share, animated: true)
     }
     
-    
-    // créé une variable vide dans la classe qui sera prête à accueillir l'adresse mémoire d'un bouton, mais ne met rien dedans pour l'instant
-    var selectionnedButton: UIButton?
-
-    @IBAction func didTapePhotoButton(_ sender: UIButton!){
-            if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-                let imagePicker = UIImagePickerController()
-                //met l'adresse mémoire du bouton sur lequel l'utilisateur a appuyé dans la variable selectionnedButton comme ca je peux l'utiliser plus tard
-                self.selectionnedButton = sender
-                imagePicker.delegate = self
-                imagePicker.sourceType = .photoLibrary;
-                imagePicker.allowsEditing = true
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-        }
-    
-    
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let selectedImage = info[.editedImage] as? UIImage
         self.selectionnedButton?.setImage(selectedImage, for: UIControl.State.normal)
         picker.dismiss(animated: true, completion: nil)
         selectionnedButton = nil /* remet le selectionnedButton a nil, parce qu'on a fini le traitement dessus. Donc on ne
         devrait plus s'en servir et si on essaye de s'en servir, c'est pas normal */
-    }
-       
-    
-    
-    /*  - Cacher un bouton du stackview pour faire la forme souhaite
-        - cacher les images des boutons non selectionns */
-    @IBAction func didTapLayoutButton(_ sender: UIButton) {
-        selectLayout(style: sender.tag)
     }
     
     func selectLayout(style:Int) {
@@ -142,12 +138,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             RightButton.imageView?.isHidden = false
         default:
             break
-                
         }
     }
-    
-    
 }
-
-
-
