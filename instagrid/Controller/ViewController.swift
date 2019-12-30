@@ -27,7 +27,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let imagePicker = UIImagePickerController()
         /*met l'adresse mémoire du bouton sur lequel l'utilisateur a appuyé
             dans la variable selectionnedButton comme ca je peux l'utiliser plus tard */
-        self.selectionnedButton = sender
+        self.selectedButton = sender
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary;
         imagePicker.allowsEditing = true
@@ -78,7 +78,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // créé une variable vide dans la classe qui sera prête à accueillir
     // l'adresse mémoire d'un bouton, mais ne met rien dedans pour l'instant
     
-    var selectionnedButton: UIButton?
+    var selectedButton: UIButton?
     
 //    MARK: - Méthodes
     
@@ -129,24 +129,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
              }
         animeViewMain()
         shareImage()
-     /*   // transformer UIView en UIImage
-       let renderer = UIGraphicsImageRenderer(size: viewMain.bounds.size)
-       let image = renderer.image { ctx in
-           viewMain.drawHierarchy(in: viewMain.bounds, afterScreenUpdates: true)
-       }
-        
-        // share l'image transformer
-       let items = [image]
-        let share = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        present(share, animated: true) */
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let selectedImage = info[.editedImage] as? UIImage
-        self.selectionnedButton?.imageView?.contentMode = .scaleAspectFill // garde la dimension de l'image 
-        self.selectionnedButton?.setImage(selectedImage, for: UIControl.State.normal)
+        self.selectedButton?.imageView?.contentMode = .scaleAspectFill // garde la dimension de l'image 
+        self.selectedButton?.setImage(selectedImage, for: UIControl.State.normal)
         picker.dismiss(animated: true, completion: nil)
-        selectionnedButton = nil /* remet le selectionnedButton a nil, parce qu'on a fini le traitement dessus. Donc on ne
+        selectedButton = nil /* remet le selectionnedButton a nil, parce qu'on a fini le traitement dessus. Donc on ne
         devrait plus s'en servir et si on essaye de s'en servir, c'est pas normal */
     }
     
