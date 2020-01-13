@@ -25,8 +25,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func didTapPhotoButton(_ sender: UIButton!){
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
         let imagePicker = UIImagePickerController()
-        /*met l'adresse mémoire du bouton sur lequel l'utilisateur a appuyé
-            dans la variable selectionnedButton comme ca je peux l'utiliser plus tard */
+        /*puts the memory address of the button on which the user pressed
+          in the selectedButton variable so I can use it later*/
         self.selectedButton = sender
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary;
@@ -35,8 +35,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
     
-    /*  - Cacher un bouton du stackview pour faire la forme souhaite
-          - cacher les images des boutons non selectionns */
+    /*  - Hide a stackview button to make the desired shape
+        - hide the images of the buttons not selected */
       @IBAction func didTapLayoutButton(_ sender: UIButton) {
           selectLayout(style: sender.tag)
        }
@@ -45,10 +45,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
 
-       /*dans le viewDidLoad, ajoute la gestion des geste =>
-         Si je fait un swipeUp ou un swipeLeft sur mon label, execute la fonction manageSwipe */
+       /*in viewDidLoad, add gesture management =>
+         If I do a swipeUp or a swipeLeft on my label, execute the manageSwipe function*/
+        
+        // manages the style of the viewMain at launch
         selectLayout(style: currentStyle)
         
+        
+        //Manage gesture of swipe up or left
         let up = UISwipeGestureRecognizer(target: self, action: #selector(manageSwipe))
         let left = UISwipeGestureRecognizer(target: self, action: #selector(manageSwipe))
         up.direction = .up
@@ -56,16 +60,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         swipeUp.addGestureRecognizer(up)
         swipeUp.addGestureRecognizer(left)
         
-        //      notification gere orientation ecran pour modif text UILabel
+        //  notification manage screen for modification text UILabel
         NotificationCenter.default.addObserver(self, selector: #selector(manageOrientation), name: UIDevice.orientationDidChangeNotification, object: nil)
      
-        // TEST ANMATION VIEWMAIN
-        animeSwipe = UISwipeGestureRecognizer(target: self, action: #selector(animeViewMain))
     }
     
 // MARK: - Properties
-    // TEST ANIMATION VIEWMAIN
-    var animeSwipe: UISwipeGestureRecognizer?
     let screenHeight = UIScreen.main.bounds.height
  
     var currentStyle: Int = 3
@@ -75,14 +75,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         } else {
             return UIApplication.shared.statusBarOrientation.isLandscape}
     }
-    // créé une variable vide dans la classe qui sera prête à accueillir
-    // l'adresse mémoire d'un bouton, mais ne met rien dedans pour l'instant
+   // create an empty variable in the class which will be ready to receive
+    // the memory address of a button, but don't put anything in it yet
     
     var selectedButton: UIButton?
     
 //    MARK: - Méthodes
+       @objc func manageOrientation() {
+            selectLayout(style: currentStyle)
+            if isLandscape {
+                swipeUp.text = "Swipe left to share"
+            } else {
+                swipeUp.text = "Swipe up to share"
+            }
+        }
     
-    // animation apres viewMain apres swipe
+    // animation of viewMain after doing a swipe
     @objc func animeViewMain() {
         if isLandscape{ UIView.animate(withDuration: 0.5, animations: {
                    self.viewMain.transform = CGAffineTransform(translationX: -self.screenHeight, y:0)
@@ -92,38 +100,38 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                }, completion: nil)
                }
         }
-        
-    @objc func manageOrientation() {
-//     if UIDevice.current.orientation == .landscapeLeft || UIDevice.current.orientation == .landscapeRight {
-        selectLayout(style: currentStyle)
-        if isLandscape {
-            swipeUp.text = "Swipe left to share"
-        } else {
-            swipeUp.text = "Swipe up to share"
-        }
-    }
+    
     private func shareImage() {
+        // tranform UIView into image
         let renderer = UIGraphicsImageRenderer(size: viewMain.bounds.size)
         let image = renderer.image { ctx in
             viewMain.drawHierarchy(in: viewMain.bounds, afterScreenUpdates: true)
         }
         let items = [image]
               let share = UIActivityViewController(activityItems: items, applicationActivities: nil)
-              share.completionWithItemsHandler = {(activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
-                if !completed {
-                    self.viewMain.transform = .identity
-                    return
-                }
+              share.completionWithItemsHandler = {(activityType: UIActivity.ActivityType?, completed:Bool, returnedItems: [Any]?, error: Error?) in
+              if !completed {
+                self.viewMain.transform = .identity
+                return
+              }
                 self.viewMain.transform = .identity
             }
               present(share, animated: true)
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        let selectedImage = info[.editedImage] as? UIImage
+        self.selectedButton?.imageView?.contentMode = .scaleAspectFill // garde la dimension de l'image
+        self.selectedButton?.setImage(selectedImage, for: UIControl.State.normal)
+        picker.dismiss(animated: true, completion: nil)
+        selectedButton = nil /* resets the selectednedButton to nil, because we have finished processing on it. So we shouldn't use it anymore and if we try to use it, it's not normal */
+    }
+    
     @objc func manageSwipe(sender: UISwipeGestureRecognizer) {
-       /* Pour continuer, je veux que mon sender ait recu une direction .left
-         ET que le téléphone soit en landscape
-         OU que mon sender ait recu une direction .up
-         ET que le téléphone ne soit pas en landscape*/
+       /* To continue, I want my sender to have received a .left direction
+           AND the phone is in landscape
+           OR that my sender has received a .up direction
+           AND that the phone is not in landscape */
         guard  sender.direction == .left && isLandscape || sender.direction == .up && !isLandscape else {
                 return
              }
@@ -131,14 +139,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         shareImage()
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        let selectedImage = info[.editedImage] as? UIImage
-        self.selectedButton?.imageView?.contentMode = .scaleAspectFill // garde la dimension de l'image 
-        self.selectedButton?.setImage(selectedImage, for: UIControl.State.normal)
-        picker.dismiss(animated: true, completion: nil)
-        selectedButton = nil /* remet le selectionnedButton a nil, parce qu'on a fini le traitement dessus. Donc on ne
-        devrait plus s'en servir et si on essaye de s'en servir, c'est pas normal */
-    }
     
     func selectLayout(style:Int) {
         currentStyle = style

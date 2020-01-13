@@ -229,6 +229,7 @@
                             <constraint firstItem="0V6-1R-tPL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="BPl-Ux-JO7"/>
                             <constraint firstItem="Jku-nc-fbR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="Gj8-rS-riU"/>
                             <constraint firstItem="0V6-1R-tPL" firstAttribute="bottom" secondItem="Jku-nc-fbR" secondAttribute="bottom" id="HLi-EM-eqS"/>
+                            <constraint firstItem="0V6-1R-tPL" firstAttribute="centerY" secondItem="Jku-nc-fbR" secondAttribute="centerY" id="HRw-Eb-DGW"/>
                             <constraint firstAttribute="bottomMargin" secondItem="Jku-nc-fbR" secondAttribute="bottom" constant="30" id="Lzi-3z-VTE">
                                 <variation key="heightClass=compact" constant="10"/>
                             </constraint>
@@ -270,6 +271,7 @@
                                 <exclude reference="NDB-Tu-JUL"/>
                                 <exclude reference="USP-6v-Zk4"/>
                                 <exclude reference="HLi-EM-eqS"/>
+                                <exclude reference="HRw-Eb-DGW"/>
                                 <exclude reference="sIA-yd-wfL"/>
                             </mask>
                         </variation>
@@ -298,8 +300,9 @@
                                 <include reference="USP-6v-Zk4"/>
                                 <exclude reference="leo-Tm-hec"/>
                                 <exclude reference="BPl-Ux-JO7"/>
-                                <include reference="HLi-EM-eqS"/>
-                                <include reference="sIA-yd-wfL"/>
+                                <exclude reference="HLi-EM-eqS"/>
+                                <include reference="HRw-Eb-DGW"/>
+                                <exclude reference="sIA-yd-wfL"/>
                             </mask>
                         </variation>
                     </view>
