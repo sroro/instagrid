@@ -22,6 +22,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var viewMain: UIView!
 
+    // aller dans la librairie de photo
     @IBAction func didTapPhotoButton(_ sender: UIButton!){
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
         let imagePicker = UIImagePickerController()
@@ -102,7 +103,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     
     private func shareImage() {
-        // tranform UIView into image
+        // tranform UIView into image for share
         let renderer = UIGraphicsImageRenderer(size: viewMain.bounds.size)
         let image = renderer.image { ctx in
             viewMain.drawHierarchy(in: viewMain.bounds, afterScreenUpdates: true)
@@ -118,6 +119,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
               present(share, animated: true)
     }
+    
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let selectedImage = info[.editedImage] as? UIImage
